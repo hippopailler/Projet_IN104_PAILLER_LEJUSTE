@@ -2,10 +2,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include "case.h"
 
-int** creer_grille(int lignes, int colonnes) {
+
+CouleurPion** creer_grille(int lignes, int colonnes) {
     // Allouer de la mémoire pour le tableau de pointeurs
-    int** grille = (int**)malloc(lignes * sizeof(int*));
+    CouleurPion** grille = (CouleurPion**)malloc(lignes * sizeof(CouleurPion*));
     if (grille == NULL) {
         fprintf(stderr, "Erreur lors de l'allocation de mémoire\n");
         exit(EXIT_FAILURE);
@@ -13,7 +15,7 @@ int** creer_grille(int lignes, int colonnes) {
 
     // Allouer de la mémoire pour chaque tableau d'entiers
     for (int i = 0; i < lignes; i++) {
-        grille[i] = (int*)malloc(colonnes * sizeof(int));
+        grille[i] = (CouleurPion*)malloc(colonnes * sizeof(CouleurPion));
         if (grille[i] == NULL) {
             fprintf(stderr, "Erreur lors de l'allocation de mémoire\n");
             exit(EXIT_FAILURE);
@@ -23,21 +25,21 @@ int** creer_grille(int lignes, int colonnes) {
     // Initialiser toutes les cases à zéro
     for (int i = 0; i < lignes; i++) {
         for (int j = 0; j < colonnes; j++) {
-            grille[i][j] = 0;
+            grille[i][j] = BLANC;
         }
     }
 
     for (int j=0;j<5;j++){
-        grille[0][j]=1; // joueur 1 représenté par des 1
-        grille[4][j]=2; //joeuur 2 représenté par des 2 sur la grille
+        grille[0][j]=BLEU; // joueur 1 représenté par des 1
+        grille[4][j]=ROUGE; //joeuur 2 représenté par des 2 sur la grille
     }
 
-    grille[2][2]=3;
+    grille[2][2]=VERT;
 
     return grille;
 }
 
-void afficher(int** grille){
+void afficher(CouleurPion** grille){
     printf("\n");
     // la grille est representée par un tableau d'entiers, il faut convertir ces données pour le visuel soit plus sympa
     for (int i=0;i<5;++i){
@@ -76,7 +78,7 @@ printf("\n");
 #define BLUE    "\x1B[34m"
 #define GREEN   "\x1B[32m"
 
-void afficher2(int** grille) {
+void afficher2(CouleurPion** grille) {
     printf("\n");
     // Affichage des numéros de colonnes centrés
     printf("     0   1   2   3   4  \n");
@@ -93,16 +95,16 @@ void afficher2(int** grille) {
             
             // Affichage des éléments de la grille
             switch (grille[i][j]) {
-                case 0:
+                case BLANC:
                     printf(". "); // Case vide
                     break;
-                case 1:
+                case BLEU:
                     printf(RED DISQUE_JOUEUR " " RESET); // Joueur
                     break;
-                case 2:
+                case ROUGE:
                     printf(BLUE DISQUE_ORDINATEUR " " RESET); // Ordinateur
                     break;
-                case 3:
+                case VERT:
                     printf(GREEN DISQUE_BOBAIL " " RESET); // Bobail
                     break;
                 default:

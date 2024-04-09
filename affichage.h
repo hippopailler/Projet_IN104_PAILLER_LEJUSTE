@@ -3,9 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "case.h"
 
-int** creer_grille(int lignes, int colonnes);
-void afficher(int** grille);
-void afficher2(int** grille);
+CouleurPion** creer_grille(int lignes, int colonnes);
+void afficher(CouleurPion** grille);
+void afficher2(CouleurPion** grille);
 
 #endif /* GRILLE_H */
