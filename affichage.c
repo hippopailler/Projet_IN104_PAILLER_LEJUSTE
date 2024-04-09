@@ -175,7 +175,7 @@ void afficher2(int** grille) {
 // Au final cette fonction n'est pas super utile et assez compliquée à implémenter, on procédera à des coups type bataille pour faciliter les choses.
 
 
-int main() {
+/*int main() {
     int lignes = 5;
     int colonnes = 5;
 
@@ -195,3 +195,4 @@ int main() {
 
     return 0;
 }
+*/
