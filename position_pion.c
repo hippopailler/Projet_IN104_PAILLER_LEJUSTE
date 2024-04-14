@@ -15,11 +15,12 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     printf("Quel pion veux tu bouger ? (ligne colonne)\n");
     scanf("%d %d",&ligne_pion, &colonne_pion);
 
+    //Interaction 1 : choix du pion à déplacer
     if (grille[ligne_pion][colonne_pion]!=joueur){ //prend en compte le hors piste
         printf("Aucun de vos pions n'est à cet emplacement\n");
         position_pion(grille,joueur);
     }
-
+    //Interaction 2 avec le joueur : choix de la destination
     printf("où voulez vous le bouger ? (ligne colonne)\n");
     scanf("%d %d",&ligne_position, &colonne_position);
 
@@ -36,7 +37,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     int decalage_ligne = ligne_position-ligne_pion; 
     int decalage_colonne = colonne_pion-colonne_position;
 
-    if (decalage_ligne==0){ //mouvement que selon la verticale
+    if (decalage_ligne==0){ //mouvement que selon la verticale (horizontale plutôt)
         for (int i =1; i<=decalage_colonne; i++){
             if (grille[ligne_pion][colonne_pion+i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
@@ -55,7 +56,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         }
     }
 
-    else if (decalage_colonne==0){// deplacement en horizontal
+    else if (decalage_colonne==0){// deplacement en horizontal (verticale ce coup ci)
         for (int i =1; i<=decalage_ligne; i++){
             if (grille[ligne_pion+i][colonne_pion]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
@@ -74,7 +75,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         }
     }
 
-    else if (decalage_colonne == decalage_ligne){//dep en diagonale
+    else if (abs(decalage_colonne) == abs(decalage_ligne)){//dep en diagonale (attention on a affaire à une différence en valeur absolue non ?)
         for (int i =1; i<=decalage_colonne; i ++){
             if (grille[ligne_pion+i][colonne_pion+i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");

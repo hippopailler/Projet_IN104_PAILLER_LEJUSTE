@@ -4,6 +4,7 @@
 #include <time.h>
 #include "case.h"
 
+
 CouleurPion** position_bobai (CouleurPion** grille, CouleurPion joueur){
     int ligne=0;
     int colonne =0;
