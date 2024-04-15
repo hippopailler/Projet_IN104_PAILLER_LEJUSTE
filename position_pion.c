@@ -34,7 +34,8 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     }
 
     int decalage_ligne = ligne_position-ligne_pion; 
-    int decalage_colonne = colonne_pion-colonne_position;
+    int decalage_colonne = colonne_position-colonne_pion;
+
 
     if (decalage_ligne==0){ //mouvement que selon la verticale
         for (int i =1; i<=decalage_colonne; i++){
