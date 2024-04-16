@@ -34,14 +34,14 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         position_pion(grille,joueur);
     }
 
-    int decalage_ligne = ligne_position-ligne_pion; //attention au signe de ces variables
-    int decalage_colonne = colonne_pion-colonne_position;
+    int decalage_ligne = ligne_position-ligne_pion; //attention au signe de ces variables : arrivée - origine
+    int decalage_colonne = colonne_position-colonne_pion;
 
     if (decalage_ligne==0){ //mouvement que selon la verticale (horizontale plutôt)
         if (decalage_colonne>0){
             for (int i =1; i<=decalage_colonne; i++){
                 if (grille[ligne_pion][colonne_pion+i]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                    printf("Erreur, un pion se trouve sur votre trajectoire 1\n");
                     position_pion(grille, joueur);
                 }
             }
@@ -49,7 +49,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         else{
             for (int i =-1; i>=decalage_colonne; i--){
                 if (grille[ligne_pion][colonne_pion+i]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                    printf("Erreur, un pion se trouve sur votre trajectoire 2\n");
                     position_pion(grille, joueur);
                 }
             }
@@ -70,7 +70,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         if (decalage_ligne>0){
             for (int i =1; i<=decalage_ligne; i++){
                 if (grille[ligne_pion+i][colonne_pion]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                    printf("Erreur, un pion se trouve sur votre trajectoire 3\n");
                     position_pion(grille, joueur);
                 }
             } //les bords
@@ -78,7 +78,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
         else{
             for (int i =-1; i>=decalage_ligne; i--){
                 if (grille[ligne_pion+i][colonne_pion]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                    printf("Erreur, un pion se trouve sur votre trajectoire 4\n");
                     position_pion(grille, joueur);
                 }
             }
@@ -109,35 +109,35 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
 
        //============ C'est la répétition des cas précédents --> il doit y avoir un moyen de réduire la taille du code ici ? définition d'une fonction auxiliaire
 
-       if (decalage_colonne>0){
+       if (decalage_colonne>0 && decalage_ligne>0){
             for (int i =1; i<=decalage_colonne; i++){
-                if (grille[ligne_pion][colonne_pion+i]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                if (grille[ligne_pion+i][colonne_pion+i]!=BLANC){
+                    printf("Erreur, un pion se trouve sur votre trajectoire 5\n");
                     position_pion(grille, joueur);
                 }
             }
         }
-        else{
-            for (int i =-1; i>=decalage_colonne; i--){
-                if (grille[ligne_pion][colonne_pion+i]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+        printf("%d,%d", decalage_colonne,decalage_ligne);
+        if ((decalage_colonne>0) && (decalage_ligne<0)){
+            for (int i =1; i<=decalage_colonne; i++){
+                if (grille[ligne_pion-i][colonne_pion+i]!=BLANC){
+                    printf("Erreur, un pion se trouve sur votre trajectoire 6\n");
                     position_pion(grille, joueur);
                 }
             }
         }
-
-        if (decalage_ligne>0){
+        else if(decalage_colonne<0 && decalage_ligne>0){
             for (int i =1; i<=decalage_ligne; i++){
-                if (grille[ligne_pion+i][colonne_pion]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                if (grille[ligne_pion+i][colonne_pion-i]!=BLANC){
+                    printf("Erreur, un pion se trouve sur votre trajectoire 7\n");
                     position_pion(grille, joueur);
                 }
             } //les bords
         }
         else{
-            for (int i =-1; i>=decalage_ligne; i--){
-                if (grille[ligne_pion+i][colonne_pion]!=BLANC){
-                    printf("Erreur, un pion se trouve sur votre trajectoire\n");
+            for (int i =1; i<=abs(decalage_ligne); i++){
+                if (grille[ligne_pion-i][colonne_pion-i]!=BLANC){
+                    printf("Erreur, un pion se trouve sur votre trajectoire  8\n");
                     position_pion(grille, joueur);
                 }
             }

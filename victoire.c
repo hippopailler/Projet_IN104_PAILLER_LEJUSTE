@@ -15,13 +15,13 @@ bool victoire (CouleurPion** grille, CouleurPion joueur){
             if (grille[i][j]==VERT){
                 if (joueur ==BLEU){
                     if (i==0){
-                        printf("bord");
+                        //printf("bord");
                         return true;
                     }
                 }
                 if (joueur==ROUGE){
                     if (i==4){
-                        printf("bord");
+                        //printf("bord");
                         return true;
                     }
                 }
@@ -45,7 +45,7 @@ bool victoire (CouleurPion** grille, CouleurPion joueur){
         }
     }
     //aucune case blanche autour du bobail
-    printf("calins");
+    //printf("calins\n");
     return true;
 }
 

@@ -12,7 +12,7 @@
 int main() {
     int lignes = 5;
     int colonnes = 5;
-    printf("Bienvenu dans ce jeu de BOBAIL augmenté par le numérique");
+    printf("Bienvenu dans ce jeu de BOBAIL augmenté par le numérique \n");
     // Créer la grille de jeu
     CouleurPion** grille = creer_grille(lignes, colonnes);
     CouleurPion joueur = BLEU;
@@ -29,10 +29,10 @@ int main() {
         //le pion est arrivé à destination sur un des bords joueur
         if (victory){
             if (joueur==ROUGE){
-                printf("Victoire du joueur rouge");
+                printf("Victoire du joueur rouge\n");
             }
             else{
-                printf("Victoire du joueur bleu");
+                printf("Victoire du joueur bleu\n");
             }
         break;
         }
@@ -44,10 +44,10 @@ int main() {
         //le bobail ne peut plus bouger
         if (victory){
             if (joueur==ROUGE){
-                printf("Victoire du joueur rouge");
+                printf("Victoire du joueur rouge\n");
             }
             else{
-                printf("Victoire du joueur bleu");
+                printf("Victoire du joueur bleu\n");
             }
         break;
         }
