@@ -36,7 +36,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     int decalage_ligne = ligne_position-ligne_pion; 
     int decalage_colonne = colonne_position-colonne_pion;
 
-    if (decalage_ligne==0){ //mouvement que selon la verticale
+    if (decalage_ligne==0){ //mouvement que selon l'horizontal
         for (int i =1; i<=abs(decalage_colonne); i++){
         if (decalage_colonne>0){
             if (grille[ligne_pion][colonne_pion+i]!=BLANC){
@@ -61,7 +61,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
                 return grille;
             }}
 
-    else if (decalage_colonne==0){ //mouvement que selon l'horizontal
+    else if (decalage_colonne==0){ //mouvement que selon la verticale
         for (int i =1; i<=abs(decalage_ligne); i++){
             if (decalage_ligne>0){
             if (grille[ligne_pion+i][colonne_pion]!=BLANC){
