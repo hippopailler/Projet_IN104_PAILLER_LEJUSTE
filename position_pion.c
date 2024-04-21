@@ -88,19 +88,18 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
 
     else if (decalage_colonne == decalage_ligne){//dep en diagonale
         for (int i =1; i<=abs(decalage_colonne); i ++){
-        if (decalage_colonne>0){
+       
+        if (decalage_colonne>0 ){
             if (grille[ligne_pion+i][colonne_pion+i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
                 position_pion(grille, joueur);
             }}
-        
-        else{
-        for (int i =1; i<=abs(decalage_colonne); i ++){
+        else if (decalage_colonne<0){
             if (grille[ligne_pion-i][colonne_pion-i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
                 position_pion(grille, joueur);
-            }
-        }}}
+            }}
+        }
         // les bords
         if (ligne_position == 0 || ligne_position ==4 || colonne_position == 0 || colonne_position ==4){
             grille[ligne_position][colonne_position]=joueur;
@@ -115,7 +114,38 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     
     }
 
+    
+    
 
+    else if (decalage_colonne == -1 * decalage_ligne){//dep en diagonale
+        for (int i =1; i<=abs(decalage_colonne); i ++){
+       
+        if (decalage_colonne>0 && decalage_ligne <0){
+            if (grille[ligne_pion+i][colonne_pion-i]!=BLANC){
+                printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                position_pion(grille, joueur);
+            }}
+
+    else{
+            if (grille[ligne_pion-i][colonne_pion+i]!=BLANC){
+                printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                position_pion(grille, joueur);
+            }
+        }
+        }
+        // les bords
+        if (ligne_position == 0 || ligne_position ==4 || colonne_position == 0 || colonne_position ==4){
+            grille[ligne_position][colonne_position]=joueur;
+            grille[ligne_pion][colonne_pion]=BLANC;
+            return grille;
+        }//on verifie la présence d'obstacle juste après
+        else if (grille[ligne_position+1][colonne_position-1]!=BLANC || grille[ligne_position+1][colonne_position-1]!=BLANC){
+            grille[ligne_position][colonne_position]=joueur;
+            grille[ligne_pion][colonne_pion]=BLANC;
+            return grille;
+        }
+    
+    }
     else{
         printf("Erreur, le déplacement n'est pas autorisé.\n");
         position_pion(grille, joueur);
