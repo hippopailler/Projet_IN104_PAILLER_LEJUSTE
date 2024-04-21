@@ -59,8 +59,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
                 grille[ligne_position][colonne_position]=joueur;
                 grille[ligne_pion][colonne_pion]=BLANC;
                 return grille;
-            }
-    }
+            }}
 
     else if (decalage_colonne==0){ //mouvement que selon l'horizontal
         for (int i =1; i<=abs(decalage_ligne); i++){
