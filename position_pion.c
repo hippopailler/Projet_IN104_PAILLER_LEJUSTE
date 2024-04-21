@@ -113,6 +113,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
             grille[ligne_pion][colonne_pion]=BLANC;
             return grille;
         }
+    
     }
 
 
