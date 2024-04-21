@@ -37,50 +37,72 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     int decalage_colonne = colonne_position-colonne_pion;
 
     if (decalage_ligne==0){ //mouvement que selon la verticale
-        for (int i =1; i<=decalage_colonne; i++){
+        for (int i =1; i<=abs(decalage_colonne); i++){
+        if (decalage_colonne>0){
             if (grille[ligne_pion][colonne_pion+i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
                 position_pion(grille, joueur);
+            }}
+            
+        else if (decalage_colonne<0){
+               if (grille[ligne_pion][colonne_pion-i]!=BLANC){
+                printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                position_pion(grille, joueur);
+                }}
+        }
+        if ( colonne_position == 0 || colonne_position ==4){ //si on est sur les bords
+            grille[ligne_position][colonne_position]=joueur;
+            grille[ligne_pion][colonne_pion]=BLANC;
+            return grille;
+        } 
+        else if (grille[ligne_position][colonne_position+1]!=BLANC || grille[ligne_position][colonne_position-1]!=BLANC ){// on verifie la presence d'obstacle 
+                grille[ligne_position][colonne_position]=joueur;
+                grille[ligne_pion][colonne_pion]=BLANC;
+                return grille;
             }
-        }
-        if (colonne_position == 0 || colonne_position ==4){ //si on est sur les bords
-            grille[ligne_position][colonne_position]=joueur;
-            grille[ligne_pion][colonne_pion]=BLANC;
-            return grille;
-        } // sinon on verifie la présence d'obstacle sur la case d'après
-        else if (grille[ligne_position][colonne_position+1]!=BLANC || grille[ligne_position][colonne_position-1]!=BLANC){
-            grille[ligne_position][colonne_position]=joueur;
-            grille[ligne_pion][colonne_pion]=BLANC;
-            return grille;
-        }
     }
 
-    else if (decalage_colonne==0){// deplacement en horizontal
-        for (int i =1; i<=decalage_ligne; i++){
+    else if (decalage_colonne==0){ //mouvement que selon l'horizontal
+        for (int i =1; i<=abs(decalage_ligne); i++){
+            if (decalage_ligne>0){
             if (grille[ligne_pion+i][colonne_pion]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
                 position_pion(grille, joueur);
-            }
-        } //les bords
-        if (ligne_position == 0 || ligne_position ==4 ){
+            }}
+            else if (decalage_ligne<0){
+               if (grille[ligne_pion-i][colonne_pion]!=BLANC){
+                printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                position_pion(grille, joueur);
+            }}
+        }
+        if (ligne_position == 0 || ligne_position ==4){ //si on est sur les bords
             grille[ligne_position][colonne_position]=joueur;
             grille[ligne_pion][colonne_pion]=BLANC;
             return grille;
-        }// sinon on verifie la présence d'obstacle sur la case d'après
-        else if (grille[ligne_position+1][colonne_position]!=BLANC || grille[ligne_position-1][colonne_position]!=BLANC){
-            grille[ligne_position][colonne_position]=joueur;
-            grille[ligne_pion][colonne_pion]=BLANC;
-            return grille;
+        } 
+        else if (grille[ligne_position+1][colonne_position]!=BLANC || grille[ligne_position-1][colonne_position]!=BLANC){// on verifie la presence d'obstacle 
+                grille[ligne_position][colonne_position]=joueur;
+                grille[ligne_pion][colonne_pion]=BLANC;
+                return grille;
         }
     }
 
     else if (decalage_colonne == decalage_ligne){//dep en diagonale
-        for (int i =1; i<=decalage_colonne; i ++){
+        for (int i =1; i<=abs(decalage_colonne); i ++){
+        if (decalage_colonne>0){
             if (grille[ligne_pion+i][colonne_pion+i]!=BLANC){
                 printf("Erreur, un pion se trouve sur votre trajectoire\n");
                 position_pion(grille, joueur);
+            }}
+        
+        else{
+        for (int i =1; i<=abs(decalage_colonne); i ++){
+            if (grille[ligne_pion-i][colonne_pion-i]!=BLANC){
+                printf("Erreur, un pion se trouve sur votre trajectoire\n");
+                position_pion(grille, joueur);
             }
-        }// les bords
+        }}}
+        // les bords
         if (ligne_position == 0 || ligne_position ==4 || colonne_position == 0 || colonne_position ==4){
             grille[ligne_position][colonne_position]=joueur;
             grille[ligne_pion][colonne_pion]=BLANC;
