@@ -76,7 +76,6 @@ int main() {
             
             //Creer la grille 
             victory = BLANC;
-            afficher2(grille);
 
             // mouvement ordi
             position_pion_alea(grille);
