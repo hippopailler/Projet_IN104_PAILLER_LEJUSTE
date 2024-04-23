@@ -71,7 +71,7 @@ int main() {
             break; 
 
         case 2:
-            printf("Hello and welcome");
+            printf("Hello and welcome\n");
             // l'ordi aura les pions bleu dans un souci d'affichage
             
             //Creer la grille 
