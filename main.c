@@ -27,7 +27,7 @@ int main() {
             CouleurPion joueur = BLEU;
             bool victory = false;
             afficher2(grille);
-            position_bobai(grille,joueur); //premier tour, le joueur ne peut que déplacer l'un de ses pions
+            position_pion(grille,joueur); //premier tour, le joueur ne peut que déplacer l'un de ses pions
             afficher2(grille);
             joueur=ROUGE;
 
@@ -68,19 +68,24 @@ int main() {
                 else {
                     joueur=ROUGE;
                 }
-
             }
-
+        break;
         case 2:{
             printf("Hello");
             // l'ordi aura les pions bleu dans un souci d'affichage
             //CouleurPion joueur=ROUGE;
             //bool victory = false;
-            afficher2(grille);
+            for (int i=0; i<20;++i){
+                afficher2(grille);
+                position_bobai_alea (grille);
+                //afficher2(grille);
+            }
+            /*afficher2(grille);
             position_bobai_alea (grille);
             afficher2(grille);
-            position_pion_alea(grille);
+            position_bobai_alea(grille);
             afficher2(grille);
+            */
             
 
         }
