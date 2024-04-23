@@ -9,6 +9,7 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     int colonne_pion =0;
     int colonne_position =0;
     int ligne_position=0;
+    //crbe
 
     if (joueur == BLEU){ printf("Joueur Bleu : choix de la nouvelle position d'un de tes pions\n" );} // dire quel joueur
     if (joueur == ROUGE){ printf("Joueur Rouge : choix de la nouvelle position d'un de tes pions'\n");} // dire quel joueur
