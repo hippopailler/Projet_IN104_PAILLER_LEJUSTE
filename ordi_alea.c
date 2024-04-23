@@ -6,8 +6,6 @@
 #include <time.h>
 #include <stdbool.h>
 
-
-//modification pour le commit à nouveau
 CouleurPion** position_bobai_alea (CouleurPion** grille){
     //srand(time(NULL));
     int ligne = (rand()%3)-1;
@@ -41,7 +39,8 @@ CouleurPion** position_bobai_alea (CouleurPion** grille){
 
 CouleurPion** position_pion_alea (CouleurPion** grille){
 //on choisit un nombre entre 0 et 4 puis on parcourt la grille on s'arrête au Xème pion rencontré, puis on le bouge dans un direction aléatoire en vérifiant au préalable qu'il peut bien bouger
-    int choix = (rand()%5);
+    int choix = (rand() %5); //le temps est initialisé dans le main
+    //printf("choix  =%d\n",choix);
     int compteur = 0;
     int ligne_p; //pour récupérer les coordonnées du pion
     int colonne_p;
@@ -51,6 +50,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
                 if (compteur == choix){
                     ligne_p = i;
                     colonne_p = j;
+                    compteur+=1;
                 }
                 else{
                     compteur+=1;
@@ -58,6 +58,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
             }
         }
     }
+    printf("i =%d; j=%d\n",ligne_p ,colonne_p);
 
     // on vérifie que le pion peut bien bouger --> existence d'une case blanche autour de lui et on compte le nombre de possibilité
     int nb_choix = 0;
@@ -87,17 +88,19 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
             if (0<=ligne_p+i && ligne_p+i<=4){
                 if (0<=colonne_p+j && colonne_p+j<=4){
                     if (grille[ligne_p+i][colonne_p+j]==BLANC){
-                        nb_choix+=1;
+                        //nb_choix+=1;
                         repere +=1;
                     }
                     if (repere == coup){
-                        debut_i=i;
-                        debut_j=j;
+                        debut_i=ligne_p+i;
+                        debut_j=colonne_p+j;
+                        repere +=1;
                     }
                 }
             }
         }
     }
+    printf("i_d = %d, j_deb = %d\n",debut_i,debut_j);
 
     // maintenant on deplace le pion jusqu'à rencontrer un obstacle ou le bord du terrain.
 
