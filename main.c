@@ -79,8 +79,9 @@ int main() {
             afficher2(grille);
             position_bobai_alea (grille);
             afficher2(grille);
-            position_bobai_alea (grille);
+            position_pion_alea(grille);
             afficher2(grille);
+            
 
         }
     }
