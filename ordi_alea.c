@@ -99,6 +99,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
                 }
             }
         }
+        
     }
     printf("i_d = %d, j_deb = %d\n",debut_i,debut_j);
 
