@@ -75,7 +75,7 @@ int main() {
             // l'ordi aura les pions bleu dans un souci d'affichage
             
             //Creer la grille 
-            CouleurPion victory = BLANC;
+            victory = BLANC;
             afficher2(grille);
 
             // mouvement ordi
