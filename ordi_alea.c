@@ -6,6 +6,8 @@
 #include <time.h>
 #include <stdbool.h>
 
+
+//modification pour le commit à nouveau
 CouleurPion** position_bobai_alea (CouleurPion** grille){
     //srand(time(NULL));
     int ligne = (rand()%3)-1;
