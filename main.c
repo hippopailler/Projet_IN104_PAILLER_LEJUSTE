@@ -36,7 +36,6 @@ int main() {
                 position_bobai(grille,joueur);
                 afficher2(grille);
                 victory=victoire(grille,joueur);
-                //le pion est arrivé à destination sur un des bords joueur
                 if (victory == ROUGE){
                         printf("Victoire du joueur rouge\n");
                         break;}
@@ -51,7 +50,6 @@ int main() {
                 afficher2(grille);
 
                 victory=victoire(grille,joueur);
-                //le bobail ne peut plus bouger
                 if (victory == ROUGE){
                         printf("Victoire du joueur rouge\n");
                         break; }
@@ -73,16 +71,75 @@ int main() {
             break; 
 
         case 2:
-            printf("Hello");
+            printf("Hello and welcome");
             // l'ordi aura les pions bleu dans un souci d'affichage
-            //CouleurPion joueur=ROUGE;
-            //bool victory = false;
+            
+            //Creer la grille 
+            CouleurPion victory = BLANC;
             afficher2(grille);
-            position_bobai_alea (grille);
-            afficher2(grille);
+
+            // mouvement ordi
             position_pion_alea(grille);
             afficher2(grille);
-            
+
+            joueur = ROUGE;
+
+            while (victory == BLANC){
+                position_bobai(grille,ROUGE);
+                afficher2(grille);
+                victory=victoire(grille,joueur);
+                if (victory == ROUGE){
+                        printf("Victoire du joueur rouge\n");
+                        break;}
+                else if (victory == BLEU){
+                        printf("Victoire du joueur bleu\n");
+                        break;
+                    }
+                
+                
+
+                position_pion(grille,ROUGE);
+                afficher2(grille);
+
+                victory=victoire(grille,joueur);
+                if (victory == ROUGE){
+                        printf("Victoire du joueur rouge\n");
+                        break; }
+                else if (victory == BLEU){
+                        printf("Victoire du joueur bleu\n");
+                        break; 
+                    }
+
+                    // On fait jouer l'ordi
+
+                    joueur=BLEU;
+                    position_bobai_alea(grille);
+                    afficher2(grille);
+                    victory=victoire(grille,joueur);
+                    
+                    if (victory == ROUGE){
+                        printf("Victoire du joueur rouge\n");
+                        break; }
+                    else if (victory == BLEU){
+                        printf("Victoire du joueur bleu\n");
+                        break; 
+                    }
+                    position_pion_alea (grille);
+                    afficher2(grille);
+                    victory=victoire(grille,joueur);
+                    
+                    if (victory == ROUGE){
+                        printf("Victoire du joueur rouge\n");
+                        break; }
+                    else if (victory == BLEU){
+                        printf("Victoire du joueur bleu\n");
+                        break; 
+                    }
+                
+                joueur=ROUGE;
+                
+
+            }
 
         
     }
