@@ -13,7 +13,15 @@ CouleurPion** position_pion (CouleurPion** grille, CouleurPion joueur){
     if (joueur == BLEU){ printf("Joueur Bleu : choix de la nouvelle position d'un de tes pions\n" );} // dire quel joueur
     if (joueur == ROUGE){ printf("Joueur Rouge : choix de la nouvelle position d'un de tes pions'\n");} // dire quel joueur
     printf("Quel pion veux tu bouger ? (ligne colonne)\n");
-    scanf("%d %d",&ligne_pion, &colonne_pion);
+    int ret=scanf("%d %d",&ligne_pion, &colonne_pion);
+
+    if (ret != 2) {
+        printf("Format invalide. Veuillez saisir deux entiers.\n");
+        // Pour vider le tampon d'entrée en cas de saisie incorrecte
+        while (getchar() != '\n'); // Vide le tampon jusqu'à la fin de ligne
+        position_pion(grille,joueur);
+        return grille;
+    }
 
     if (grille[ligne_pion][colonne_pion]!=joueur){ //prend en compte le hors piste
         printf("Aucun de vos pions n'est à cet emplacement\n");

@@ -11,7 +11,17 @@ CouleurPion** position_bobai (CouleurPion** grille, CouleurPion joueur){
     if (joueur == BLEU){ printf("Joueur Bleu : choix de la nouvelle position du bobai\n" );} // dire quel joueur
     if (joueur == ROUGE){ printf("Joueur Rouge : choix de la nouvelle position du bobai\n");} // dire quel joueur
    
-    scanf("%d %d",&ligne, &colonne);
+    int ret = scanf("%d %d",&ligne, &colonne);
+    //gestion des erreurs de type en entrée
+
+    if (ret != 2) {
+        printf("Format invalide. Veuillez saisir deux entiers.\n");
+        // Pour vider le tampon d'entrée en cas de saisie incorrecte
+        while (getchar() != '\n'); // Vide le tampon jusqu'à la fin de ligne
+        position_bobai(grille,joueur);
+        return grille;
+    }
+
     if (ligne>=0 && ligne <5  && colonne >=0 && colonne <5){  
         
     for (int i =0; i<5; i++){

@@ -19,6 +19,7 @@ int main() {
     int colonnes = 5;
     int choix;
     CouleurPion joueur;
+    
     printf("\n Bienvenue dans ce jeu de BOBAIL augmenté par le numérique. \n \n Le Bobail est un ancien jeu traditionnel africain dans lequel on essai de ramener le pion central, appelé Bobail, dans son camp. Les pions ne peuvent pas se sauter mais servent d'obstacles.\n ");
     printf("\n");
     sleep(6);
@@ -32,7 +33,14 @@ int main() {
     printf("\n");
     sleep(3);
     printf("Contre qui voulez jouer : taper 1 pour jouer contre votre ami, taper 2 pour jouer contre un ordinateur : \n");
-    scanf("%d",&choix);
+    
+    int ret =scanf("%d",&choix);
+    if (ret != 1) {
+        printf("Format invalide. Veuillez saisir un entier.\n");
+        // Pour vider le tampon d'entrée en cas de saisie incorrecte
+        while (getchar() != '\n'); // Vide le tampon jusqu'à la fin de ligne
+        return 0;
+    }
     CouleurPion** grille = creer_grille(lignes, colonnes);
     // on procède au switch pour séparer les différents modes de jeu : 1 contre 1/ contre ordi aléatoire / contre IA ?
     switch(choix){
