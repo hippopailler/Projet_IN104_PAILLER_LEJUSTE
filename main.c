@@ -12,6 +12,7 @@
 #include "ordi_alea.h"
 #include <time.h>
 
+
 int main() {
     srand(time(NULL));
     int lignes = 5;
