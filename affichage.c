@@ -4,7 +4,10 @@
 #include <time.h>
 #include "case.h"
 
-
+/*
+Il y a ici deux versions de l'affichage, une sommaire et une plus travaillé avec des caractères unicode
+On pourra tenter de l'améliorer avec un véritable affichage graphique par la suite.
+*/
 CouleurPion** creer_grille(int lignes, int colonnes) {
     // Allouer de la mémoire pour le tableau de pointeurs
     CouleurPion** grille = (CouleurPion**)malloc(lignes * sizeof(CouleurPion*));

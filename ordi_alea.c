@@ -6,6 +6,17 @@
 #include <time.h>
 #include <stdbool.h>
 
+
+/*
+Pour cette version de l'IA on procède par un jeu aléatoire
+Etape 1 : choix d'un pion en aléatoire
+Etape 2 : vérifier que ce pion peut bouger 
+Etape 3 : choisir un des déplacements en aléatoire
+Etape 4 : réaliser le mouvement 
+
+On initiale le temps pour la fonction rand dans la fonction main.
+*/
+
 CouleurPion** position_bobai_alea (CouleurPion** grille){
     //srand(time(NULL));
     int ligne = (rand()%3)-1;
@@ -81,6 +92,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
     }
 
     int coup=(rand()%(nb_choix+1)); //on choisit aléatoirement un des coups possibles
+
     // on récupère les coordonnées du début du mouvement
     int debut_i;
     int debut_j;

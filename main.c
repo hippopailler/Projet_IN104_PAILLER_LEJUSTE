@@ -110,7 +110,6 @@ int main() {
                     }
 
                     // On fait jouer l'ordi
-
                     joueur=BLEU;
                     position_bobai_alea(grille);
                     afficher2(grille);
@@ -135,13 +134,11 @@ int main() {
                         break; 
                     }
                 
-                joueur=ROUGE;
-                
-
+                joueur=ROUGE;                
             }
 
-        
     }
+
     // Libérer la mémoire allouée pour chaque ligne
     for (int i = 0; i < lignes; i++) {
         free(grille[i]);
@@ -151,56 +148,5 @@ int main() {
     free(grille);
 
     return 0;
-
-    /*
-    // Créer la grille de jeu
-    CouleurPion** grille = creer_grille(lignes, colonnes);
-    CouleurPion joueur = BLEU;
-    bool victory = false;
-    afficher2(grille);
-    position_bobai(grille,joueur); //premier tour, le joueur ne peut que déplacer l'un de ses pions
-    afficher2(grille);
-    joueur=ROUGE;
-
-    while (! (victory)){
-        position_bobai(grille,joueur);
-        afficher2(grille);
-        victory=victoire(grille,joueur);
-        //le pion est arrivé à destination sur un des bords joueur
-        if (victory){
-            if (joueur==ROUGE){
-                printf("Victoire du joueur rouge\n");
-            }
-            else{
-                printf("Victoire du joueur bleu\n");
-            }
-        break;
-        }
-
-        position_pion(grille,joueur);
-        afficher2(grille);
-
-        victory=victoire(grille,joueur);
-        //le bobail ne peut plus bouger
-        if (victory){
-            if (joueur==ROUGE){
-                printf("Victoire du joueur rouge\n");
-            }
-            else{
-                printf("Victoire du joueur bleu\n");
-            }
-        break;
-        }
-
-
-        if (joueur == ROUGE){
-            joueur=BLEU;
-        }
-        else {
-            joueur=ROUGE;
-        }
-
-    }
-    */
     
 }
