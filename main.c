@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <unistd.h> // Pour la fonction sleep()
 #include "affichage.h"
 #include "position_bobai.h"
 #include "case.h"
@@ -17,14 +18,28 @@ int main() {
     int colonnes = 5;
     int choix;
     CouleurPion joueur;
-    printf("Bienvenu dans ce jeu de BOBAIL augmenté par le numérique \n");
-    printf("\n Contre qui voulez jouez : 1 pour local, 2 pour ordi\n");
+    printf("Bienvenue dans ce jeu de BOBAIL augmenté par le numérique \n Le Bobail est un ancien jeu traditionnel africain dans lequel on essai de ramener le pion central, appelé Bobail, dans son camp. Les pions ne peuvent pas se sauter mais servent d'obstacles.\n ");
+    printf("\n");
+    sleep(5);
+    printf("Regles : \n Les joueurs jouent à tour de rôle. \n A chaque tour, le joueur déplace d’abord le bobail puis un de ses pions. \n Le bobail se déplace dans tous les sens d’une seule case à la fois. \n Les pions se déplacent également dans toutes les directions mais ils doivent aller au bout de leur déplacement (jusqu’au bord du plateau ou jusqu’à rencontrer un autre pion ou le Bobail.\n ");
+    printf("\n");
+    sleep(5);
+    printf("Victoire : \n Ramener le Bobail sur une case où se trouvaient ses propres pions au début. \n Ou \n Encercler le Bobail afin que l’adversaire ne puisse pas le déplacer au début de son tour.\n");
+    printf("\n");
+    sleep(5);
+    printf("Premier tour : \n  Le joueur qui commence la partie, ne déplace pas le Bobail. Il déplace uniquement un de ses pions. \n");
+    printf("\n");
+    sleep(5);
+    printf("\n Contre qui voulez jouer : taper 1 pour jouer contre votre ami, taper 2 pour jouer contre un ordinateur\n");
     scanf("%d",&choix);
     CouleurPion** grille = creer_grille(lignes, colonnes);
     // on procède au switch pour séparer les différents modes de jeu : 1 contre 1/ contre ordi aléatoire / contre IA ?
     switch(choix){
         case 1:
+            // on pourrait demander le nom des joueurs ?
+
             // Créer la grille de jeu
+
             joueur = BLEU;
             CouleurPion victory = BLANC;
             afficher2(grille);
@@ -37,10 +52,10 @@ int main() {
                 afficher2(grille);
                 victory=victoire(grille,joueur);
                 if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break;}
                 else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break;
                     }
                 
@@ -51,10 +66,10 @@ int main() {
 
                 victory=victoire(grille,joueur);
                 if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break; }
                 else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break; 
                     }
                     
@@ -88,10 +103,10 @@ int main() {
                 afficher2(grille);
                 victory=victoire(grille,joueur);
                 if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break;}
                 else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break;
                     }
                 
@@ -102,10 +117,10 @@ int main() {
 
                 victory=victoire(grille,joueur);
                 if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break; }
                 else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break; 
                     }
 
@@ -116,10 +131,10 @@ int main() {
                     victory=victoire(grille,joueur);
                     
                     if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break; }
                     else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break; 
                     }
                     position_pion_alea (grille);
@@ -127,10 +142,10 @@ int main() {
                     victory=victoire(grille,joueur);
                     
                     if (victory == ROUGE){
-                        printf("Victoire du joueur rouge\n");
+                        printf("Victoire du joueur Rouge\n");
                         break; }
                     else if (victory == BLEU){
-                        printf("Victoire du joueur bleu\n");
+                        printf("Victoire du joueur Bleu\n");
                         break; 
                     }
                 
