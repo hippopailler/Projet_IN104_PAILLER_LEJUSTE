@@ -22,16 +22,16 @@ int main() {
     
     printf("\n Bienvenue dans ce jeu de BOBAIL augmenté par le numérique. \n \n Le Bobail est un ancien jeu traditionnel africain dans lequel on essai de ramener le pion central, appelé Bobail, dans son camp. Les pions ne peuvent pas se sauter mais servent d'obstacles.\n ");
     printf("\n");
-    sleep(6);
+    //sleep(6);
     printf("Regles : \n Les joueurs jouent à tour de rôle. \n A chaque tour, le joueur déplace d’abord le bobail puis un de ses pions. \n Le Bobail se déplace dans tous les sens d’une seule case à la fois. \n Les pions se déplacent également dans toutes les directions mais ils doivent aller au bout de leur déplacement (jusqu’au bord du plateau ou jusqu’à rencontrer un autre pion ou le Bobail).\n ");
     printf("\n");
-    sleep(10);
+    //sleep(10);
     printf("Victoire : \n Ramener le Bobail sur une case où se trouvaient ses propres pions au début. \n Ou \n Encercler le Bobail afin que l’adversaire ne puisse pas le déplacer au début de son tour.\n");
     printf("\n");
-    sleep(5);
+    //sleep(5);
     printf("Premier tour : \n  Le joueur qui commence la partie, ne déplace pas le Bobail. Il déplace uniquement un de ses pions. \n");
     printf("\n");
-    sleep(3);
+    //sleep(3);
     printf("Contre qui voulez jouer : taper 1 pour jouer contre votre ami, taper 2 pour jouer contre un ordinateur : \n");
     
     int ret =scanf("%d",&choix);

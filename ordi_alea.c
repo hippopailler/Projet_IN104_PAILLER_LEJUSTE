@@ -71,7 +71,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
         
         }
     }
-    printf("i =%d; j=%d\n",ligne_p ,colonne_p);
+    //printf("i =%d; j=%d\n",ligne_p ,colonne_p);
 
     // on vérifie que le pion peut bien bouger --> existence d'une case blanche autour de lui et on compte le nombre de possibilité
     int nb_choix = 0;
@@ -91,30 +91,44 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
         position_pion_alea(grille);
     }
 
-    int coup=(rand()%(nb_choix+1)); //on choisit aléatoirement un des coups possibles
+    int coup=(rand()%(nb_choix)); //on choisit aléatoirement un des coups possibles
 
     // on récupère les coordonnées du début du mouvement
     int debut_i;
-    int debut_j;
+    int debut_j=2;
     int repere=0;
+    //printf("coup = %d\n", coup);
     for (int i=-1;i<=1;++i){
         for (int j=-1;j<=1;++j){
             if (0<=ligne_p+i && ligne_p+i<=4){
                 if (0<=colonne_p+j && colonne_p+j<=4){
                     if (grille[ligne_p+i][colonne_p+j]==BLANC){
-                        //nb_choix+=1;
-                        repere +=1;
+                        
+                        if (repere == coup){
+                            debut_i=ligne_p+i;
+                            debut_j=colonne_p+j;
+                            repere +=1;
+                        }
+                        else{
+                            repere += 1;
+                        }
+                        
                     }
-                    if (repere == coup){
+                    /*
+                    if (repere == coup && grille[ligne_p+i][colonne_p+j]==BLANC ){
                         debut_i=ligne_p+i;
                         debut_j=colonne_p+j;
                         repere +=1;
                     }
+                    else{
+                        repere +=1;
+                    }
+                    */
                 }
             }
         }
     }
-    printf("i_d = %d, j_deb = %d\n",debut_i,debut_j);
+    //printf("i_d = %d, j_deb = %d\n",debut_i,debut_j);
 
     // maintenant on deplace le pion jusqu'à rencontrer un obstacle ou le bord du terrain.
 
@@ -130,7 +144,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
                 fin_i=ligne_p + p*decalage_ligne;
                 fin_j=colonne_p+ p*decalage_colonne;
                 indicateur=false;
-                printf("1\n");
+                //printf("1\n");
             }
             else {
                 p+=1;
@@ -139,11 +153,11 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
         else{
             fin_i=ligne_p + (p-1)*decalage_ligne;
             fin_j=colonne_p+ (p-1)*decalage_colonne;
-            printf("2\n");
+            //printf("2\n");
             indicateur=false;
         }
     }
-    printf("%d,%d\n",fin_i,fin_j);
+    //printf("%d,%d\n",fin_i,fin_j);
     grille[fin_i][fin_j]=BLEU;
     grille[ligne_p][colonne_p]=BLANC;
     return grille;
