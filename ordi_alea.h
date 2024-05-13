@@ -6,6 +6,6 @@
 #include "case.h"
 
 CouleurPion** position_bobai_alea (CouleurPion** grille);
-CouleurPion** position_pion_alea (CouleurPion** grille);
+CouleurPion** position_pion_alea (CouleurPion** grille, CouleurPion joueur);
 
 #endif /* ORDI_ALEA_H */

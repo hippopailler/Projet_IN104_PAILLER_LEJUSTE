@@ -49,7 +49,7 @@ CouleurPion** position_bobai_alea (CouleurPion** grille){
 
 
 
-CouleurPion** position_pion_alea (CouleurPion** grille){
+CouleurPion** position_pion_alea (CouleurPion** grille, CouleurPion joueur){
 //on choisit un nombre entre 0 et 4 puis on parcourt la grille on s'arrête au Xème pion rencontré, puis on le bouge dans un direction aléatoire en vérifiant au préalable qu'il peut bien bouger
     int choix = (rand() %5); //le temps est initialisé dans le main
     //printf("choix  =%d\n",choix);
@@ -58,7 +58,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
     int colonne_p;
     for (int i =0; i<5; i++){
         for (int j= 0; j<5; j++){
-            if (grille[i][j] == BLEU){
+            if (grille[i][j] == joueur){
                 if (compteur == choix){
                     ligne_p = i;
                     colonne_p = j;
@@ -88,7 +88,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
     }
 
     if (nb_choix==0){ //aucune case blanche on relance la fonction en espérant tomber sur un autre pion --> les 5 pions ne peuvent pas être bloqué au même temps
-        position_pion_alea(grille);
+        position_pion_alea(grille,joueur);
     }
 
     int coup=(rand()%(nb_choix)); //on choisit aléatoirement un des coups possibles
@@ -158,7 +158,7 @@ CouleurPion** position_pion_alea (CouleurPion** grille){
         }
     }
     //printf("%d,%d\n",fin_i,fin_j);
-    grille[fin_i][fin_j]=BLEU;
+    grille[fin_i][fin_j]=joueur;
     grille[ligne_p][colonne_p]=BLANC;
     return grille;
 }
