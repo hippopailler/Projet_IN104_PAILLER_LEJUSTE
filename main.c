@@ -102,7 +102,7 @@ int main() {
             victory = BLANC;
 
             // mouvement ordi
-            position_pion_alea(grille);
+            position_pion_alea(grille, BLEU);
             afficher2(grille);
 
             joueur = ROUGE;
@@ -146,7 +146,7 @@ int main() {
                         printf("Victoire du joueur Bleu\n");
                         break; 
                     }
-                    position_pion_alea (grille);
+                    position_pion_alea (grille, BLEU);
                     afficher2(grille);
                     victory=victoire(grille,joueur);
                     
