@@ -77,8 +77,69 @@ Noeud* expansion(Noeud* parent) {
 // Pour la mise en place je vais me concentrer sur le bobail
 
 //Les fonctions qu'il reste à coder : 
+
+// simulation de partie : à l'aide des fonctions de ordi alea et calcul de victoire
+int simu_jeu(CouleurPion** grille){
+    CouleurPion IA;
+    CouleurPion joueur;
+    CouleurPion victory;
+    int nombre_tour = 0;
+    victory = BLANC;
+    IA = BLEU;
+    joueur = ROUGE;
+    CouleurPion** grille_reelle = grille; //on stocke la première grille - correspond à la grille du jeu en cours
+
+//1er tour full au pif
+//cette fonction est lancée qu'après le coup d'un joueur
+
+    while (victory == BLANC){
+
+        position_bobai_alea(grille);
+        victory=victoire(grille,IA);
+                    
+        if (victory == joueur){
+                simu_jeu(grille_reelle);} // on relance la simulation car on veut que l'IA gagne
+
+        else if (victory == IA){
+            break;
+                    }
+
+            position_pion_alea (grille, IA);
+            victory=victoire(grille,IA);
+                    
+        if (victory == joueur){
+            simu_jeu(grille_reelle);
+            }
+        else if (victory == IA){
+            break;
+                    }
+
+        position_bobai_alea(grille);
+        victory=victoire(grille, joueur);
+        if (victory == joueur){
+            simu_jeu(grille_reelle);
+                }
+        else if (victory == IA){
+                break;
+                    }
+                
+
+        position_pion_alea(grille,joueur);
+
+        victory=victoire(grille,joueur);
+        if (victory == joueur){
+            simu_jeu(grille_reelle);
+                }
+        else if (victory == IA){
+                break;
+                    }
+
+        nombre_tour ++;         
+    }
+    return nombre_tour; //je sais pas trop si grille_reelle est stockée qqpart (c'est un pointeur non ?)
+
+}
 /*
-- simulation de partie : à l'aide des fonctions de ordi alea et calcul de victoire
 - remonter l'arbre : mettre à jour les parents selon le nombre de simulations faites après et comptabiliser les victoires en plus bas 
 - fonction d'ensemble qui gère l'architecture générale
 */
