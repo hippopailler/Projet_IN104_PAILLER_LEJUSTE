@@ -101,6 +101,7 @@ int simu_jeu(CouleurPion** grille){
                 simu_jeu(grille_reelle);} // on relance la simulation car on veut que l'IA gagne
 
         else if (victory == IA){
+            //il faut stocker le premier mouvement avec des structs ?
             break;
                     }
 
@@ -111,6 +112,7 @@ int simu_jeu(CouleurPion** grille){
             simu_jeu(grille_reelle);
             }
         else if (victory == IA){
+            //il faut stocker le premier mouvement
             break;
                     }
 
@@ -120,6 +122,7 @@ int simu_jeu(CouleurPion** grille){
             simu_jeu(grille_reelle);
                 }
         else if (victory == IA){
+                //il faut stocker le premier mouvement
                 break;
                     }
                 
@@ -131,6 +134,7 @@ int simu_jeu(CouleurPion** grille){
             simu_jeu(grille_reelle);
                 }
         else if (victory == IA){
+                //il faut stocker le premier mouvement
                 break;
                     }
 
