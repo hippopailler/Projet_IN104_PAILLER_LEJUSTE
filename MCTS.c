@@ -6,94 +6,24 @@
 #include <stdbool.h>
 #include "ordi_alea.h"  
 #include <limits.h>
+#include "affichage.h"
 #include "victoire.h"
 
-#define MAX_MOVE 10 // nombre de simulations max pour chaque configuration --> valeur à nuancer selon le temps de calcul
-
-// On va parcourir l'arbre des simulations de jeu, on garde en mémoire l'état de jeu
-typedef struct Noeud {
-    CouleurPion** etat;
-    struct Noeud* parent;
-    struct Noeud* children[MAX_MOVE]; // profondeur max
-    int simul; // nombre de simulations découlant de ce noeud
-    int victoire; // recense le nombre de victoire depuis cette simulation
-} Noeud;
-
-Noeud* crea_node(CouleurPion** etat, Noeud* parent) {
-    Noeud* noeud = malloc(sizeof(Noeud));
-    if (noeud == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire pour le noeud\n");
-        exit(EXIT_FAILURE);
-    }
-    noeud->etat = etat;
-    noeud->parent = parent;
-    noeud->simul = 0; // initialement noeud en bout d'arbre
-    noeud->victoire = 0;
-    for (int i = 0; i < MAX_MOVE; i++) {
-        noeud->children[i] = NULL;
-    }
-    return noeud;
-}
-
-// Calcul de l'ucb permettant de choisir l'ordre d'exploration des noeuds avec la fonction qui suit
-double ucb(Noeud* parent, Noeud* child) {
-    // Upper Confidence Bound calculation --> cf formule sur wikipédia
-    if (child->simul == 0) {
-        return INFINITY; // encourage la visite des noeuds non visités
-    }
-    double exploitation = child->victoire / (double)child->simul;
-    double exploration = sqrt(log(parent->simul) / (double)child->simul);
-    return exploitation + 2 * exploration; // UCB1 formula
-}
-
-Noeud* select_noeud(Noeud* root) {
-    // Sélection d'un noeud enfant selon le max d'UCB
-    Noeud* selected = NULL;
-    double max_ucb = -INFINITY;
-    for (int i = 0; i < MAX_MOVE; i++) {
-        if (root->children[i] != NULL) {
-            double current_ucb = ucb(root, root->children[i]);
-            if (current_ucb > max_ucb) {
-                max_ucb = current_ucb;
-                selected = root->children[i];
-            }
-        }
-    }
-    return selected;
-}
-
-Noeud* expansion(Noeud* parent) {
-    // Étend le parent en ajoutant des enfants pour les différents coups
-    for (int i = 0; i < MAX_MOVE; i++) {
-        if (parent->children[i] == NULL) {
-            // On va créer un nouvel état en faisant un coup aléatoire
-            CouleurPion** new_state = position_bobai_alea(parent->etat); // pour l'instant on le fait déjà pour le position du bobail 
-            if (new_state == NULL) {
-                fprintf(stderr, "Erreur de création du nouvel état\n");
-                continue;
-            }
-            parent->children[i] = crea_node(new_state, parent);
-            return parent->children[i];
-        }
-    }
-    return NULL;
-}
+#define MAX_MOVE 2 // nombre de simulations max pour chaque configuration --> valeur à nuancer selon le temps de calcul
 
 CouleurPion** copy_grille(CouleurPion** grille) {
     // Allouer de la mémoire pour le tableau de pointeurs
     CouleurPion** co_grille = (CouleurPion**)malloc(5 * sizeof(CouleurPion*));
-    // Test de l'allocation mémoire
     if (co_grille == NULL) {
-        fprintf(stderr, "Erreur lors de l'allocation de mémoire\n");
+        fprintf(stderr, "Erreur lors de l'allocation de mémoire pour co_grille\n");
         exit(EXIT_FAILURE);
     }
 
-    // Allouer de la mémoire pour chaque tableau d'entiers
+    // Allouer de la mémoire pour chaque ligne du tableau
     for (int i = 0; i < 5; i++) {
         co_grille[i] = (CouleurPion*)malloc(5 * sizeof(CouleurPion));
-        // Nouveau test d'allocation mémoire
         if (co_grille[i] == NULL) {
-            fprintf(stderr, "Erreur lors de l'allocation de mémoire\n");
+            fprintf(stderr, "Erreur lors de l'allocation de mémoire pour co_grille[%d]\n", i);
             exit(EXIT_FAILURE);
         }
     }
@@ -108,29 +38,101 @@ CouleurPion** copy_grille(CouleurPion** grille) {
     return co_grille;
 }
 
-int simu_jeu(CouleurPion** grille) {
-    CouleurPion IA;
-    CouleurPion joueur;
-    CouleurPion victory;
-    int nombre_tour = 0; // filet de sécurité pour éviter les boucles infinies
-    victory = BLANC;
-    IA = BLEU;
-    joueur = ROUGE;
-    CouleurPion** grille_reelle = copy_grille(grille); // on stocke la première grille - correspond à la grille du jeu en cours
+typedef struct Noeud {
+    CouleurPion** etat;
+    struct Noeud* parent;
+    struct Noeud* children[MAX_MOVE];
+    int simul;
+    int victoire;
+} Noeud;
 
-    while (victory == BLANC && nombre_tour < 1000) {
+Noeud* crea_node(CouleurPion** etat, Noeud* parent) {
+    Noeud* noeud = (Noeud*)malloc(sizeof(Noeud));
+    if (noeud == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire pour le noeud\n");
+        exit(EXIT_FAILURE);
+    }
+    noeud->etat = etat;
+    noeud->parent = parent;
+    noeud->simul = 0;
+    noeud->victoire = 0;
+    for (int i = 0; i < MAX_MOVE; i++) {
+        noeud->children[i] = NULL;
+    }
+    return noeud;
+}
+
+double ucb(Noeud* parent, Noeud* enfant) {
+    if (enfant->simul == 0) {
+        return INFINITY; // Encourage la visite des noeuds non visités
+    }
+    double exploitation = (double) enfant->victoire / enfant->simul;
+    double exploration = sqrt(log(parent->simul) / enfant->simul);
+    return exploitation + 2 * exploration; // UCB1 formula
+}
+
+Noeud* select_noeud(Noeud* root) {
+    Noeud* selected = NULL;
+    double max_ucb = -1000;
+    for (int i = 0; i < MAX_MOVE; i++) {
+        if (root->children[i] != NULL) {
+            double current_ucb = ucb(root, root->children[i]);
+            printf("UCB pour le nœud enfant %d : %.2f\n", i, current_ucb);
+            if (current_ucb > max_ucb) {
+                max_ucb = current_ucb;
+                selected = root->children[i];
+            }
+        }
+    }
+    return selected;
+}
+
+int expansion(Noeud* parent) {
+    printf("État des nœuds enfants avant l'expansion :\n");
+    for (int j = 0; j < MAX_MOVE; j++) {
+        printf("Noeud enfant %d : %p\n", j, (void*)parent->children[j]);
+    }
+
+    int created_children = 0; // Variable pour compter les enfants créés
+
+    for (int i = 0; i < MAX_MOVE; i++) {
+        printf("hello world\n");
+        CouleurPion** new_state = copy_grille(parent->etat);
+        if (new_state == NULL) {
+            fprintf(stderr, "Erreur de création du nouvel état\n");
+            continue;
+        }
+        position_bobai_alea(new_state);
+        parent->children[i] = crea_node(new_state, parent);
+        printf("Nouvel état de la grille après expansion :\n");
+        afficher2(new_state);
+
+        created_children++; // Incrémente le nombre d'enfants créés
+    }
+
+    return created_children; // Retourne le nombre d'enfants créés
+}
+
+int simu_jeu(CouleurPion** grille) {
+    CouleurPion IA = BLEU;
+    CouleurPion joueur = ROUGE;
+    CouleurPion victory = BLANC;
+    int nombre_tour = 0;
+    CouleurPion** grille_reelle = copy_grille(grille);
+
+    while (victory == BLANC && nombre_tour < 100) {
         position_bobai_alea(grille);
         victory = victoire(grille, IA);
-                    
+
         if (victory == joueur) {
-            return simu_jeu(grille_reelle); // on relance la simulation car on veut que l'IA gagne
+            return simu_jeu(grille_reelle);
         } else if (victory == IA) {
             break;
         }
 
         position_pion_alea(grille, IA);
         victory = victoire(grille, IA);
-                    
+
         if (victory == joueur) {
             return simu_jeu(grille_reelle);
         } else if (victory == IA) {
@@ -160,7 +162,6 @@ int simu_jeu(CouleurPion** grille) {
 
     int reward = (victory == IA) ? 1 : 0;
 
-    // On libère la grille de simulation de partie 
     for (int i = 0; i < 5; i++) {
         free(grille[i]);
     }
@@ -178,18 +179,35 @@ void backpropagate(Noeud* node, int reward) {
 
 CouleurPion** mcts(CouleurPion** initial_state, int iterations) {
     Noeud* root = crea_node(initial_state, NULL);
+    int created_children = expansion(root); // Expanse le nœud racine et récupère le nombre d'enfants créés
 
-    for (int i = 0; i < iterations; i++) {
-        Noeud* selected = select_noeud(root);
-        if (selected == NULL) break;
-
-        Noeud* expanded = expansion(selected);
-        if (expanded == NULL) continue;
-
-        int reward = simu_jeu(expanded->etat);
-        backpropagate(expanded, reward);
+    // Simulation pour chaque enfant créé lors de l'expansion
+    for (int i = 0; i < created_children; ++i) {
+        Noeud* enfant = root->children[i];
+        int reward = simu_jeu(enfant->etat);
+        backpropagate(enfant, reward);
     }
 
+    // Boucle principale des itérations MCTS
+    for (int i = 0; i < iterations; i++) {
+        printf("Itération %d\n", i);
+        Noeud* selected = select_noeud(root);
+        if (selected == NULL) {
+            printf("Aucun noeud sélectionné, arrêt des itérations\n");
+            break;
+        }
+
+        int created_children = expansion(selected); // Expanse le nœud sélectionné et récupère le nombre d'enfants créés
+
+        // Simulation pour chaque enfant créé lors de l'expansion
+        for (int j = 0; j < created_children; ++j) {
+            Noeud* enfant = selected->children[j];
+            int reward = simu_jeu(enfant->etat);
+            backpropagate(enfant, reward);
+        }
+    }
+
+    // Trouver le meilleur enfant
     Noeud* best_child = NULL;
     int max_simul = -1;
     for (int i = 0; i < MAX_MOVE; i++) {
@@ -199,40 +217,11 @@ CouleurPion** mcts(CouleurPion** initial_state, int iterations) {
         }
     }
 
+    // Si aucun meilleur enfant trouvé, sélectionne un coup aléatoire
     if (best_child == NULL) {
-        // Sélection d'un coup aléatoire parmi les mouvements possibles
-        /*
-        int random_move;
-        do {
-            random_move = rand() % MAX_MOVE;
-        } while (root->children[random_move] == NULL);
-
-        return root->children[random_move]->etat;*/
-        printf("aléa ");
-        CouleurPion** finale = position_bobai_alea(initial_state);
-        return finale;
-
-        
+        printf("Aucun meilleur enfant trouvé, sélection d'un coup aléatoire\n");
+        return position_bobai_alea(initial_state);
     }
 
     return best_child->etat;
 }
-
-
-
-/*
-int main() {
-    srand(time(NULL));
-
-    CouleurPion** initial_state = initialiser_grille(); // Fonction pour initialiser la grille du jeu
-    int iterations = 1000; // Ajuster le nombre d'itérations selon les besoins
-
-    CouleurPion** final_state = mcts(initial_state, iterations);
-
-    afficher_grille(final_state); // Fonction pour afficher la grille du jeu
-
-    free_grille(initial_state); // Libérer la mémoire
-    free_grille(final_state); // Libérer la mémoire
-    return 0;
-}
-*/
