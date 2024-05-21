@@ -148,7 +148,7 @@ CouleurPion** ia_bobail_up(CouleurPion** grille_depart){
     // Ajoutez des états au tableau
     for (int i = 0; i < 10; i++) {
         CouleurPion** etat = copy_grille(grille_depart);
-        position_bobai_alea(etat);
+        etat=position_bobai_alea(etat);
         liste_test[i]=etat;
     }
 
@@ -160,13 +160,8 @@ CouleurPion** ia_bobail_up(CouleurPion** grille_depart){
 
     //on va simuler une centaine de parties pour chaque configuration et regarder qui à le taux de victoire le plus élevé
 
-    int max=0;
-    /*
-    for (int j = 0; j < 10; j++) {
-        printf("test0\n");
-        max += simu_jeu(liste_test[1]);
-    }
-    */
+    //int max=0;
+
     printf("max= %d",simu_jeu(liste_test[1]));
 
     /*

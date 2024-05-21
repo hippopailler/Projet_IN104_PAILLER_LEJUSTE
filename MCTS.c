@@ -38,6 +38,8 @@ CouleurPion** copy_grille(CouleurPion** grille) {
     return co_grille;
 }
 
+
+// On utilise une structure de liste chainée pour parcourir l'arbre et pouvoir remonter plus facilement pour propager les scores
 typedef struct Noeud {
     CouleurPion** etat;
     struct Noeud* parent;
@@ -46,6 +48,8 @@ typedef struct Noeud {
     int victoire;
 } Noeud;
 
+
+// Cette fonction permet d'initialiser un nouveau noeud --> particulièrement utilisé dans la fonction expansion
 Noeud* crea_node(CouleurPion** etat, Noeud* parent) {
     Noeud* noeud = (Noeud*)malloc(sizeof(Noeud));
     if (noeud == NULL) {
@@ -54,13 +58,15 @@ Noeud* crea_node(CouleurPion** etat, Noeud* parent) {
     }
     noeud->etat = etat;
     noeud->parent = parent;
-    noeud->simul = 0;
-    noeud->victoire = 0;
+    noeud->simul = 0; //vient d'être crée donc 0 simulations découlant
+    noeud->victoire = 0; // on a pas encore testé les victoires
     for (int i = 0; i < MAX_MOVE; i++) {
         noeud->children[i] = NULL;
     }
     return noeud;
 }
+
+
 
 double ucb(Noeud* parent, Noeud* enfant) {
     if (enfant->simul == 0) {
@@ -68,9 +74,10 @@ double ucb(Noeud* parent, Noeud* enfant) {
     }
     double exploitation = (double) enfant->victoire / enfant->simul;
     double exploration = sqrt(log(parent->simul) / enfant->simul);
-    return exploitation + 2 * exploration; // UCB1 formula
+    return exploitation + 2 * exploration; // calcul de l'UCB1 
 }
 
+// On parcourt l'arbre depuis un noeud donné et le choix du prochain noeud est fait en fonction de la valeur de l'UCB1 associé
 Noeud* select_noeud(Noeud* root) {
     Noeud* selected = NULL;
     double max_ucb = -1000;
@@ -170,12 +177,13 @@ int simu_jeu(CouleurPion** grille) {
 }
 
 void backpropagate(Noeud* node, int reward) {
-    while (node != NULL) {
+    while (node != NULL) { // on remonte jusqu'à la racine de l'arbre ayant pour parent le noeud null
         node->simul++;
         node->victoire += reward;
         node = node->parent;
     }
 }
+
 
 CouleurPion** mcts(CouleurPion** initial_state, int iterations) {
     Noeud* root = crea_node(initial_state, NULL);
@@ -217,7 +225,7 @@ CouleurPion** mcts(CouleurPion** initial_state, int iterations) {
         }
     }
 
-    // Si aucun meilleur enfant trouvé, sélectionne un coup aléatoire
+    // Si aucun meilleur enfant trouvé, sélectionne un coup aléatoire--> filet de sécurité, ne devrait théoriquement jamais être apeller.
     if (best_child == NULL) {
         printf("Aucun meilleur enfant trouvé, sélection d'un coup aléatoire\n");
         return position_bobai_alea(initial_state);

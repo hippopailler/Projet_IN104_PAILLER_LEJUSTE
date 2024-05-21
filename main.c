@@ -136,8 +136,8 @@ int main() {
 
                     // On fait jouer l'ordi
                     joueur=BLEU;
-                    grille=ia_bobail_up(grille);
-                    printf("test");
+                    position_bobai_alea(grille);
+                    
                     afficher2(grille);
                     victory=victoire(grille,joueur);
                     
