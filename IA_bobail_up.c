@@ -37,6 +37,7 @@ CouleurPion** copy_grille(CouleurPion** grille) {
 }
 
 int simu_jeu(CouleurPion** grille) {
+    printf("Début de simu_jeu\n"); // Ajouté pour le débogage
     CouleurPion IA = BLEU;
     CouleurPion joueur = ROUGE;
     CouleurPion victory = BLANC;
@@ -45,74 +46,87 @@ int simu_jeu(CouleurPion** grille) {
     int victoire_ia = 1;
     int non_concluant = 0;
 
-     CouleurPion** grille_sim = copy_grille(grille);
+    CouleurPion** grille_sim = copy_grille(grille);
+    printf("Grille copiée\n"); // Ajouté pour le débogage
 
     while (victory == BLANC && nombre_tour < 400) {
         position_bobai_alea(grille_sim);
         victory = victoire(grille_sim, IA);
+        printf("Tour %d: vérification après position_bobai_alea\n", nombre_tour); // Ajouté pour le débogage
 
         if (victory == joueur) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Défaite de l'IA\n"); // Ajouté pour le débogage
             return defaite_ia;
         } else if (victory == IA) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Victoire de l'IA\n"); // Ajouté pour le débogage
             return victoire_ia;
         }
 
         position_pion_alea(grille_sim, IA);
         victory = victoire(grille_sim, IA);
+        printf("Tour %d: vérification après position_pion_alea pour IA\n", nombre_tour); // Ajouté pour le débogage
 
         if (victory == joueur) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Défaite de l'IA\n"); // Ajouté pour le débogage
             return defaite_ia;
         } else if (victory == IA) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Victoire de l'IA\n"); // Ajouté pour le débogage
             return victoire_ia;
         }
 
         position_bobai_alea(grille_sim);
         victory = victoire(grille_sim, joueur);
+        printf("Tour %d: vérification après position_bobai_alea pour joueur\n", nombre_tour); // Ajouté pour le débogage
 
         if (victory == joueur) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Défaite de l'IA\n"); // Ajouté pour le débogage
             return defaite_ia;
         } else if (victory == IA) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Victoire de l'IA\n"); // Ajouté pour le débogage
             return victoire_ia;
         }
 
         position_pion_alea(grille_sim, joueur);
         victory = victoire(grille_sim, joueur);
+        printf("Tour %d: vérification après position_pion_alea pour joueur\n", nombre_tour); // Ajouté pour le débogage
 
         if (victory == joueur) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Défaite de l'IA\n"); // Ajouté pour le débogage
             return defaite_ia;
         } else if (victory == IA) {
             for (int i = 0; i < 5; i++) {
                 free(grille_sim[i]);
-                }
+            }
             free(grille_sim);
+            printf("Victoire de l'IA\n"); // Ajouté pour le débogage
             return victoire_ia;
         }
 
@@ -124,57 +138,8 @@ int simu_jeu(CouleurPion** grille) {
     }
     free(grille_sim);
 
+    printf("Simulation non concluante\n"); // Ajouté pour le débogage
     return non_concluant;
-}
-
-typedef struct DynamicArray {
-    CouleurPion*** data; // Tableau de pointeurs vers des tableaux de CouleurPion*
-    int size;            // Nombre actuel d'éléments
-    int capacity;        // Capacité totale du tableau
-} DynamicArray;
-
-
-DynamicArray* create_dynamic_array(int initial_capacity) {
-    DynamicArray* array = (DynamicArray*)malloc(sizeof(DynamicArray));
-    if (array == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire pour le tableau dynamique\n");
-        exit(EXIT_FAILURE);
-    }
-    array->data = (CouleurPion***)malloc(initial_capacity * sizeof(CouleurPion**));
-    if (array->data == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire pour les données du tableau dynamique\n");
-        free(array);
-        exit(EXIT_FAILURE);
-    }
-    array->size = 0;
-    array->capacity = initial_capacity;
-    return array;
-}
-
-
-void add_to_dynamic_array(DynamicArray* array, CouleurPion** etat) {
-    if (array->size >= array->capacity) {
-        array->capacity *= 2;
-        array->data = (CouleurPion***)realloc(array->data, array->capacity * sizeof(CouleurPion**));
-        if (array->data == NULL) {
-            fprintf(stderr, "Erreur de réallocation mémoire pour les données du tableau dynamique\n");
-            exit(EXIT_FAILURE);
-        }
-    }
-    array->data[array->size] = etat;
-    array->size++;
-}
-
-//Pour vider la liste automatiquement une fois le programme fini
-void free_dynamic_array(DynamicArray* array) {
-    for (int i = 0; i < array->size; i++) {
-        for (int j = 0; j < 5; j++) {
-            free(array->data[i][j]);
-        }
-        free(array->data[i]);
-    }
-    free(array->data);
-    free(array);
 }
 
 CouleurPion** ia_bobail_up(CouleurPion** grille_depart){
@@ -196,11 +161,13 @@ CouleurPion** ia_bobail_up(CouleurPion** grille_depart){
     //on va simuler une centaine de parties pour chaque configuration et regarder qui à le taux de victoire le plus élevé
 
     int max=0;
+    /*
     for (int j = 0; j < 10; j++) {
-        
+        printf("test0\n");
         max += simu_jeu(liste_test[1]);
     }
-    printf("max= %d",max);
+    */
+    printf("max= %d",simu_jeu(liste_test[1]));
 
     /*
     for (int i=0; i<10;++i){
