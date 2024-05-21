@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -Werror
+CFLAGS = 
 
-SOURCES = affichage.c position_bobai.c position_pion.c victoire.c ordi_alea.c MCTS.c main.c
+SOURCES = affichage.c position_bobai.c position_pion.c victoire.c ordi_alea.c IA_bobail_up.c main.c
 OBJS = $(SOURCES:.c=.o)
 
 EXECUTABLE = main.x

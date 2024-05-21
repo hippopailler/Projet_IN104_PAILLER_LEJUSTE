@@ -11,7 +11,8 @@
 #include "victoire.h"
 #include "ordi_alea.h"
 #include <time.h>
-#include "MCTS.h"
+//#include "MCTS.h"
+#include "IA_bobail_up.h"
 
 int main() {
     srand(time(NULL));
@@ -135,7 +136,7 @@ int main() {
 
                     // On fait jouer l'ordi
                     joueur=BLEU;
-                    grille=mcts(grille,10);
+                    grille=ia_bobail_up(grille);
                     printf("test");
                     afficher2(grille);
                     victory=victoire(grille,joueur);
